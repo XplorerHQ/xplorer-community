@@ -42,18 +42,49 @@ brew tap xplorerhq/dist
 brew install xplorer
 ```
 
-### Windows (Scoop)
-
-```powershell
-scoop bucket add xplorer https://github.com/XplorerHQ/scoop-xplorer
-scoop install xplorer
-```
-
 ### Direct Download
 
-Download binaries from [Releases](https://github.com/XplorerHQ/homebrew-dist/releases).
+Download the latest binary for your platform from [Releases](https://github.com/XplorerHQ/xplorer-community/releases):
+
+| Platform | Asset |
+|----------|-------|
+| macOS (Apple Silicon) | `xplorer-<version>-darwin-arm64.tar.gz` |
+| macOS (Intel) | `xplorer-<version>-darwin-x64.tar.gz` |
+| Linux (x64) | `xplorer-<version>-linux-x64.tar.gz` |
+| Windows (x64) | `xplorer-<version>-windows-x64.zip` |
+
+Each asset includes a `.sha256` checksum file for verification.
+
+**Linux / macOS:**
+```bash
+tar -xzf xplorer-<version>-<platform>.tar.gz
+sudo mv xplorer/xplorer /usr/local/bin/
+```
+
+**Windows:**
+Extract the zip and add the `xplorer` directory to your `PATH`.
 
 ## Quick Start
+
+### TUI (Interactive Terminal UI)
+
+Launch the full interactive terminal UI to explore your cluster visually:
+
+```bash
+xplorer tui
+```
+
+The TUI provides:
+- Resource tree with health status indicators
+- Syntax-highlighted YAML manifests
+- Pause/resume resource reconciliation (with cascade support)
+- Fuzzy search across resources
+- Multiple color themes
+- Keyboard-driven navigation
+
+See [Getting Started](docs/getting-started.md) for a walkthrough with screenshots.
+
+### CLI
 
 ```bash
 # List all Crossplane claims
@@ -67,20 +98,27 @@ xplorer show my-database-claim -v
 
 # Watch a claim for changes
 xplorer watch my-database-claim
+
+# Interactive mode with fuzzy search
+xplorer show
 ```
 
 ## Features
 
+- **Interactive TUI** - Full terminal UI with tree navigation, manifest viewer, and resource management
 - **Hierarchy Discovery** - Automatically traces Claims → XRs → Managed Resources
 - **Health Status** - Shows Ready/Synced status with propagation through the tree
 - **Error Details** - Surfaces error messages and related events
+- **Pause/Resume** - Toggle reconciliation on resources, with cascade support for entire hierarchies
 - **Interactive Selection** - Fuzzy search when no claim specified
-- **TUI Mode** - Full terminal UI for exploration (`xplorer-tui`)
 - **Watch Mode** - Real-time updates as resources change
+- **Smart Caching** - Reduces API server load with intelligent caching
 
 ## Documentation
 
 - [Getting Started](docs/getting-started.md)
+- [CLI Getting Started](docs/cli-getting-started.md)
+- [Keyboard Shortcuts](docs/keyboard-shortcuts.md)
 - [CLI Reference](docs/cli-reference.md)
 - [FAQ](docs/faq.md)
 
