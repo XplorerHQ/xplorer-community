@@ -2,8 +2,9 @@
 
 **Crossplane resource explorer** - Trace claims through composite resources (XRs) to managed resources.
 
-<!-- TODO: Add demo GIF here -->
-<!-- ![Xplorer Demo](docs/assets/demo.gif) -->
+<p align="center">
+  <img src="docs/images/xplorer-case-solved.png" alt="Xplorer TUI" width="720" />
+</p>
 
 ## Why Xplorer?
 
