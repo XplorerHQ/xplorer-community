@@ -1,6 +1,8 @@
 # Xplorer — makes it Visible, makes it Fixable
 
-**Crossplane resource explorer** - Trace claims through composite resources (XRs) to managed resources.
+**Crossplane resource explorer** - Trace claims (XRCs/XRs) through the noise, down to managed resources.
+
+[Getting Started](docs/getting-started.md) _(with screenshots)_
 
 ![Xplorer TUI](docs/images/xplorer-case-solved.png)
 
