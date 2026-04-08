@@ -1,4 +1,4 @@
-# Xplorer
+# Xplorer — makes it Visible, makes it Fixable
 
 **Crossplane resource explorer** - Trace claims through composite resources (XRs) to managed resources.
 
