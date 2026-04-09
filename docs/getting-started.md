@@ -43,7 +43,7 @@ Each row shows Ready (`R`) and Synced (`S`) status at a glance, alongside resour
 
 </td></tr></table>
 
-#### Searching
+### Searching
 
 ---
 
@@ -67,7 +67,7 @@ Use arrow keys or `j`/`k` to move through the tree. The full hierarchy unfolds f
 
 Health status sits inline on each row — healthy resources show their Ready/Synced indicators, unhealthy ones are highlighted so your eye goes straight to the problem.
 
-#### Live Updates
+### Live Updates
 
 ---
 
@@ -139,7 +139,7 @@ Press `p` again to resume. For broader control, `Shift+P` cascades the pause acr
 
 The TUI offers three views beyond the default tree for slicing your cluster from different angles.
 
-#### Group by Kind — `Ctrl+K`
+### Group by Kind — `Ctrl+K`
 
 ---
 
@@ -147,7 +147,7 @@ The TUI offers three views beyond the default tree for slicing your cluster from
 
 Groups all resources by Kubernetes kind. Useful when you want every instance of a particular resource type across the cluster in one place, regardless of which claim they belong to.
 
-#### Group by Namespace — `Ctrl+N`
+### Group by Namespace — `Ctrl+N`
 
 ---
 
@@ -155,7 +155,7 @@ Groups all resources by Kubernetes kind. Useful when you want every instance of 
 
 In Crossplane v2, namespaces often map to environments — dev, staging, production. This view gives you a per-environment slice of cluster health without filtering through unrelated resources.
 
-#### Unhealthy Scan — `Ctrl+U`
+### Unhealthy Scan — `Ctrl+U`
 
 ---
 
