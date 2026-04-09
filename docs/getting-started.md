@@ -1,6 +1,6 @@
 # Getting Started
 
-Xplorer's Terminal UI (TUI) provides a full interactive experience for exploring and managing Crossplane resources. This guide walks you through the TUI. For CLI usage, see the [CLI Getting Started](cli-getting-started.md) guide.
+Xplorer's Terminal UI (TUI) is the fastest way to understand what's happening inside a Crossplane cluster. This guide walks through the TUI. For CLI usage, see the [CLI Getting Started](cli-getting-started.md) guide.
 
 ## Launching the TUI
 
@@ -8,229 +8,181 @@ Xplorer's Terminal UI (TUI) provides a full interactive experience for exploring
 xplorer tui
 ```
 
-Or use the direct alias:
-
-```bash
-xplorer-tui
-```
-
 ## Overview
 
-When the TUI launches, it connects to your Kubernetes cluster, discovers all Crossplane resources, and presents them in a fuzzy-searchable XR and XRC (Claim) list.
+When the TUI launches it connects to your cluster, discovers all Crossplane resources, and presents them in a searchable list.
 
 ![TUI Overview](images/tui-overview.svg)
 
-The interface has three main areas:
-
-- **Header** - Cluster connection info (context, cluster, API server) and navigation breadcrumbs
-- **Resource List** - All claims and XRs with health status, searchable with fuzzy matching
-- **Footer** - Context-sensitive keyboard shortcuts
-
-Press `F2` to hide the header and maximize the resource list area. The breadcrumbs collapse into a single line above the list so you keep navigation context without the overhead.
+&#160;&#160;&#160;&#160;The header shows your cluster connection — context, cluster name, API server — with navigation breadcrumbs. The resource list sits in the middle, and the footer adapts its keyboard shortcuts to whatever panel you're in. Press `F2` to collapse the header and give the list more room; breadcrumbs stay in a single line so you keep navigation context without the overhead.
 
 ![No Header](images/tui-overview-no-header.svg)
 
-Each row in the resource list shows:
+&#160;&#160;&#160;&#160;Each row shows Ready (`R`) and Synced (`S`) status at a glance, alongside resource type, name, kind, namespace, and age. Namespace and Age appear on wider terminals.
+
+<table><tr><td>
 
 | Column | Meaning |
 |--------|---------|
-| `R` | Ready status (`✓` = True, blank = False) |
-| `S` | Synced status (`✓` = True, blank = False) |
+| `R` | Ready (`✓` = True, blank = False) |
+| `S` | Synced (`✓` = True, blank = False) |
 | `T` | Type (`c` = Claim, `x` = XR) |
 | `Name` | Resource name |
+
+</td><td>
+
+| Column | Meaning |
+|--------|---------|
 | `Kind` | Crossplane resource kind |
-| `NS` | Namespace (visible on wider terminals) |
-| `Age` | Time since resource creation (visible on wider terminals) |
+| `NS` | Namespace (wider terminals) |
+| `Age` | Time since creation (wider terminals) |
 
-Start typing to filter the list with fuzzy matching. For best results, use more than 3 characters. You can use space-separated terms to narrow down quickly -- each term is matched independently, so `hub backup` will find resources containing both "hub" and "backup" anywhere in their name, kind, or namespace.
+</td></tr></table>
 
-![Filtering - narrow match](images/tui-overview-filtering.svg)
+### Searching
 
-![Filtering - broader match](images/tui-overview-filtering-demo.svg)
+Start typing to filter with fuzzy matching. Use more than three characters for best results, and space-separate terms to narrow down quickly — `hub backup` matches resources containing both "hub" and "backup" anywhere in name, kind, or namespace.
 
-Note that the search currently matches against the full resource manifest, not just the visible columns. This means common labels -- such as those added by ArgoCD or other GitOps tools -- can produce broad matches that select nearly everything. If this affects your workflow, please [report an issue or feature request](https://github.com/XplorerHQ/xplorer-community/issues) to help us refine the matching behavior.
+![Filtering — narrow match](images/tui-overview-filtering.svg)
 
-Select any resource and press `Enter` to drill down into its full hierarchy.
+![Filtering — broader match](images/tui-overview-filtering-demo.svg)
 
-## Navigating the Resource Tree
+Note: search currently matches against the full resource manifest, not just visible columns. Labels from ArgoCD or other GitOps tools can produce broad matches that select nearly everything. If this affects your workflow, [report an issue](https://github.com/XplorerHQ/xplorer-community/issues) to help refine the behavior.
 
-Use arrow keys or `j`/`k` to move through the resource tree. The tree shows the full hierarchy:
+Select any resource and press `Enter` to drill into its full hierarchy.
 
-```
-Claim
- +-- Composite Resource (XR)
-      +-- Managed Resource 1
-      +-- Managed Resource 2
-      +-- ...
-```
+## Resource Tree
+
+Use arrow keys or `j`/`k` to move through the tree. The full hierarchy unfolds from Claim down through Composite Resources to every Managed Resource underneath.
 
 ![Tree Navigation](images/tui-tree-navigation.svg)
 
-Health status is displayed inline for each resource:
-- Healthy resources show Ready/Synced status
-- Unhealthy resources are highlighted with error indicators
+Health status sits inline on each row — healthy resources show their Ready/Synced indicators, unhealthy ones are highlighted so your eye goes straight to the problem.
 
-## Live Updates
+### Live Updates
 
-The tree subscribes to the Kubernetes API watch stream and updates in real time. When a resource receives an update from the cluster, it is briefly highlighted in the tree so you can see exactly which resources are actively changing.
+The tree subscribes to the Kubernetes watch stream and updates in real time. When a resource changes, it briefly highlights so you can see exactly what's moving.
 
 ![Live Update](images/tui-tree-live-update.svg)
 
-If any of those updates report a status change -- a resource transitioning from healthy to unhealthy, or a new error condition appearing -- the tree automatically switches to the error detail view described in the [debugging section](#debugging-after-a-provider-upgrade) below. You do not need to manually refresh or re-scan; the TUI reacts to cluster state as it happens.
+If a status change appears — a resource turning unhealthy, a new error condition — the TUI automatically switches to the error detail view. No manual refresh needed.
 
-## Viewing Resource Manifests
+## Viewing Manifests
 
-Press `Enter` or `Ctrl+D` on any resource to open its YAML manifest in a syntax-highlighted panel.
+Press `Enter` or `Ctrl+D` on any resource to open its YAML in a syntax-highlighted panel.
 
 ![Manifest View](images/tui-tree-navigation-details-panel.svg)
 
-In the manifest panel:
-- `Ctrl+T` / `Ctrl+P` - Cycle through syntax themes
-- `Ctrl+W` - Toggle word wrap
-- `Escape` - Close the manifest panel
+Inside the panel, `Ctrl+T` / `Ctrl+P` cycle through syntax themes, `Ctrl+W` toggles word wrap, and `Escape` closes it.
 
-## Copying Resource Information
+## Copying Resource Details
 
-Press `Ctrl+C` on any resource in the tree to copy its details to the clipboard. The copied content includes the resource's status, kind, name, and composition -- ready to paste into a Slack message, incident ticket, or terminal.
+Press `Ctrl+C` on any resource to copy its status, kind, name, and composition to the clipboard — ready to paste into a Slack message, incident ticket, or terminal.
 
 ![Copy Resource](images/tui-copy-name-line.svg)
 
-For example, pressing `Ctrl+C` on a selected resource copies a line like:
+A copied line looks like:
 
 ```
 ✓ ✓    afd-hub    AcmeAFD    atlas-corestack-hub    212d
 ```
 
-This gives you the health status, resource name, kind, composition, and age in a single copyable string. For more control, press `Alt+Shift+C` to open an edit panel with the focused content (requires the [iTerm2 Alt key fix](#iterm2-alt-key-configuration)). Inside the panel, use standard cursor keys with `Shift` to select exactly the portion you need, then press `Ctrl+C` to copy the selection and close the panel.
+For more control, `Alt+Shift+C` opens an edit panel with the focused content. Use `Shift` + cursor keys to select exactly what you need, then `Ctrl+C` to copy and close (requires the [iTerm2 Alt key fix](#iterm2-alt-key-configuration)).
 
 ![Copy Edit Panel](images/tui-copy-adhoc-content.svg)
 
 ## Debugging After a Provider Upgrade
 
-Provider upgrades can introduce CRD schema changes that break existing compositions. Instead of chasing errors across dozens of `kubectl describe` commands, Xplorer surfaces the root cause directly in the resource tree.
+Provider upgrades can break existing compositions when CRD schemas change. Instead of chasing errors across `kubectl describe` commands, Xplorer surfaces the root cause directly in the tree.
 
 ![Error Details](images/tui-tree-navigation-errors.svg)
 
-In this example, a provider upgrade changed the CRD schema for `VirtualNetwork`, and the composition still references `.spec.forProvider.dnsServers` -- a field no longer declared in the new schema. Xplorer shows the full error chain at a glance:
-
-- **Synced: False** on the XR with a `ReconcileError` condition
-- The exact error message: `field not declared in schema`
-- The affected resource and API version (`network.azure.upbound.io/v1beta1, Kind=VirtualNetwork`)
-- Downstream effects like `WatchCircuitOpen` from CompositionRevision thrashing
-
-What previously required correlating events across multiple resources is now visible in a single screen. Navigate to the affected resource and press `Enter` to inspect its full manifest.
+In this example, a provider upgrade changed the schema for `VirtualNetwork` and the composition still references `.spec.forProvider.dnsServers` — a field no longer declared in the new schema. The tree shows `Synced: False` on the XR with a `ReconcileError`, the exact error message, the affected resource and API version, and downstream effects like `WatchCircuitOpen` from CompositionRevision thrashing. What previously required correlating events across multiple resources is visible in a single screen. Navigate to the affected resource and press `Enter` to inspect its full manifest.
 
 ## Pause and Resume Reconciliation
 
-During incident response or while investigating a failing resource, you often need to prevent Crossplane from continuously reconciling and potentially making things worse. Xplorer lets you pause reconciliation directly from the TUI -- no need to manually patch annotations with `kubectl`.
-
-Navigate to the resource and press `p`. A confirmation dialog shows the resource name, kind, and a clear warning that paused resources will not reconcile:
+During an incident you often need to stop Crossplane from reconciling while you investigate. Press `p` on any resource to pause it — no `kubectl patch` needed.
 
 ![Pause Confirmation](images/tui-pause-confirm.svg)
 
-Once confirmed, the resource is immediately paused. The tree reflects the new state with a visual indicator, and the status bar confirms the operation:
+A confirmation dialog shows the resource name, kind, and a clear warning. Once confirmed, the tree reflects the paused state immediately.
 
 ![Resource Paused](images/tui-pause-paused.svg)
 
-Under the hood, Xplorer adds the `crossplane.io/paused: 'true'` annotation to the resource. You can verify this by opening the manifest -- the annotation is visible directly in the resource's `metadata.annotations`:
+Under the hood, Xplorer adds the `crossplane.io/paused: 'true'` annotation. Open the manifest to verify — it's visible directly in `metadata.annotations`.
 
 ![Paused Annotation in Manifest](images/tui-pause-details.svg)
 
-Press `p` again on the same resource to resume reconciliation, which removes the annotation. For broader control, use `Shift+P` to cascade the pause across the selected resource and all of its children -- useful when you need to stabilize an entire claim hierarchy before applying a fix.
+Press `p` again to resume. For broader control, `Shift+P` cascades the pause across the selected resource and all its children — useful when you need to stabilize an entire claim hierarchy before applying a fix.
 
-## Unhealthy Resources View
+## Alternative Views
 
-Beyond the default tree, the TUI offers alternative views to slice your cluster from different angles.
+The TUI offers three views beyond the default tree for slicing your cluster from different angles.
 
-### Group by Kind
-
-Press `Ctrl+K` to group all resources by their Kubernetes kind. This is useful when you want to see all instances of a particular resource type across your cluster at a glance.
+### Group by Kind — `Ctrl+K`
 
 ![Kind View](images/tui-kind-view.svg)
 
-### Group by Namespace
+Groups all resources by Kubernetes kind. Useful when you want every instance of a particular resource type across the cluster in one place, regardless of which claim they belong to.
 
-Press `Ctrl+N` to group resources by namespace. In Crossplane v2, namespaces often represent distinct environments (dev, testing, staging, production), so this view effectively gives you a per-environment slice of your cluster state -- letting you quickly assess the health of a specific environment without filtering through unrelated resources.
+### Group by Namespace — `Ctrl+N`
 
 ![Namespace View](images/tui-namespace-view.svg)
 
-### Unhealthy Scan
+In Crossplane v2, namespaces often map to environments — dev, staging, production. This view gives you a per-environment slice of cluster health without filtering through unrelated resources.
 
-Press `Ctrl+U` to trigger an unhealthy scan that surfaces compositions that need attention.
+### Unhealthy Scan — `Ctrl+U`
 
 ![Unhealthy View](images/tui-unhealthy.svg)
 
-> **Note:** This screenshot uses synthetic test data -- 58 unhealthy compositions at once is not something you would typically encounter in production.
+> **Note:** This screenshot uses synthetic test data — 58 unhealthy compositions at once is not something you'd typically see in production.
 
-Xplorer detects two distinct categories of unhealthy resources:
+The scan surfaces two categories that are easy to miss otherwise. The obvious one is XRs or claims reporting `Ready: False` or `Synced: False`. The harder one is a parent that looks healthy — both statuses True — while one or more managed resources underneath are failing or degraded. Crossplane's status propagation doesn't always bubble child failures up to the parent, so without this scan those issues go unnoticed until something breaks harder.
 
-1. **Top-level status not True** -- The XR or claim itself reports `Ready: False` or `Synced: False`. These are straightforward to spot even with `kubectl`, but Xplorer aggregates them across the entire cluster in one view.
-
-2. **Healthy parent, unhealthy children** -- The XR or claim reports both `Ready: True` and `Synced: True`, yet one or more underlying managed resources are failing or degraded. This is the harder case to catch. Crossplane's status propagation does not always surface child-level failures to the parent, so without inspecting each managed resource individually, these issues go unnoticed. Xplorer scans the full hierarchy and flags these compositions as unhealthy even when the top-level status looks clean.
-
-Select any composition and press `Enter` to drill down into its full resource tree. The scan traverses every composition in the cluster, so on large clusters with hundreds of compositions it can take a moment -- but the result is a single consolidated view that would otherwise require inspecting each resource individually.
+Select any composition and press `Enter` to drill into the full tree.
 
 ![Unhealthy Expanded](images/tui-unhealthy-expanded.svg)
 
-In this expanded view, the XR's Ready condition shows reason `Creating` with the message `Unready resources: atlaslocal-certificate-tycho8-backup` -- a managed resource is still being provisioned by the cloud provider. Drilling further into the Resource Refs reveals the specific `Release` resource with both `Ready: False` and `Synced: False`, along with its own condition details.
-
-No hidden failure goes undetected -- even when a parent XR reports `Ready: True` and `Synced: True`, the scan inspects every managed resource underneath and surfaces any that are degraded, stuck, or still provisioning. This level of visibility across multiple levels of the hierarchy, in a single screen, is what makes the unhealthy scan valuable for day-to-day operations.
+In this expanded view, the XR's Ready condition shows reason `Creating` — a managed resource is still being provisioned by the cloud provider. Drilling into Resource Refs reveals the specific `Release` resource with both `Ready: False` and `Synced: False` and its own condition details. One screen, no hidden failures.
 
 ## Themes
 
-Xplorer ships with multiple color themes. Switch themes with `Alt+T` (next) and `Alt+Shift+T` (previous).
+Switch themes with `Alt+T` (next) and `Alt+Shift+T` (previous). The change applies to both the main UI and the syntax highlighting in the manifest panel in a single action. Your selection persists to `~/.config/xplorer/config.yaml`.
 
-Available themes:
-- xplorer-dark (default)
-- textual-dark / textual-light
-- nord
-- gruvbox
-- catppuccin-mocha / catppuccin-latte
-- dracula
-- tokyo-night
-- monokai
-- solarized-light
-- flexoki
+![Theme — Tree View](images/tui-theme.svg)
 
-![Theme - Tree View](images/tui-theme.svg)
+Available themes: xplorer-dark (default), textual-dark, textual-light, nord, gruvbox, catppuccin-mocha, catppuccin-latte, dracula, tokyo-night, monokai, solarized-light, flexoki.
 
-The same shortcut applies to the manifest panel when it is open -- `Alt+T` switches both the main UI theme and the syntax highlighting theme in a single action. Your theme selection is saved to `~/.config/xplorer/config.yaml`, so the TUI restarts with the last used combination.
+![Theme — Manifest View](images/tui-theme-manifest.svg)
 
-![Theme - Manifest View](images/tui-theme-manifest.svg)
-
-![Theme - Manifest View (alternate)](images/tui-theme-manifest2.svg)
+![Theme — Manifest View (alternate)](images/tui-theme-manifest2.svg)
 
 ## Help
 
-`F1` is the single most useful key to remember. Press it on any screen to open a contextual help modal that lists every available action for the panel you are currently in. The shortcuts adapt based on context -- the tree panel, manifest panel, and other views each show their own relevant actions.
+Press `F1` on any screen to open a contextual help modal that lists every available action for the panel you're currently in. Shortcuts adapt to context — the tree, the manifest panel, and other views each show their own relevant actions.
 
 ![Help Modal](images/tui-help-modal.svg)
 
-If you forget any of the shortcuts mentioned in this guide, `F1` will always have the answer.
+If you forget any shortcut from this guide, `F1` has the answer.
 
-## Universal Resource Palette (WIP)
+## Universal Resource Palette _(WIP)_
 
-The Universal Resource Palette lets you query any Kubernetes resource in the cluster -- not just Crossplane resources. Open it with the chord sequence `Ctrl+X, R` and start typing to fuzzy-search across all available resource types.
+`Ctrl+X, R` opens the Universal Resource Palette — a fuzzy search across every Kubernetes resource in the cluster, not just Crossplane resources.
 
 ![Universal Resource Palette](images/tui-resource-pallette.svg)
 
-Notably, the palette handles the kind collision problem introduced by Crossplane v2's namespaced managed resources. In v2, providers register the same kind in both the legacy cluster-scoped API group and the new `.m.` namespaced group -- for example, `Bucket` exists in both `s3.aws.upbound.io` and `s3.aws.m.upbound.io`, with identical kind names. This breaks the vast majority of Kubernetes tooling that assumes kind names are unique. The palette presents each variant with its full API group, letting you select the exact resource you need without ambiguity.
+It also handles the kind collision problem introduced in Crossplane v2, where providers register the same kind in both the legacy cluster-scoped API group and the new `.m.` namespaced group — `Bucket` exists in both `s3.aws.upbound.io` and `s3.aws.m.upbound.io` with identical names, which breaks most Kubernetes tooling that assumes kind names are unique. The palette presents each variant with its full API group so you pick exactly the one you need.
 
-This feature is under active development. The goal is to provide a single entry point for browsing any resource in the cluster, with the same manifest viewing and navigation capabilities available for Crossplane resources today.
+This feature is under active development, aiming toward a single entry point for any resource in the cluster with the same manifest viewing and navigation available today.
 
 ## Keyboard Reference
 
-See the full [Keyboard Shortcuts](keyboard-shortcuts.md) reference for every shortcut across all panels, including chord shortcuts (`Ctrl+X` prefix sequences).
+See the full [Keyboard Shortcuts](keyboard-shortcuts.md) reference for every shortcut across all panels, including chord sequences (`Ctrl+X` prefix).
 
 ## iTerm2: Alt Key Configuration
 
-Several TUI shortcuts use the `Alt` modifier (theme switching, copy edit panel). By default, iTerm2 on macOS treats the Option key as a compose key for special characters instead of sending the escape sequence that terminal applications expect.
-
-To fix this, go to **Preferences > Profiles > Keys** and set **Left Option Key** to **Esc+**. This applies to any shortcut using `Alt` in the keyboard reference above.
+Several shortcuts use the `Alt` modifier — theme switching, the copy edit panel. By default, iTerm2 on macOS treats the Option key as a compose key for special characters instead of sending the escape sequence terminal apps expect. Go to **Preferences > Profiles > Keys** and set **Left Option Key** to **Esc+** to fix this.
 
 ## Tips
 
-- Use `Ctrl+R` to refresh the tree after making changes outside of Xplorer
-- The header auto-hides shortcuts and logo on narrow terminals to preserve space
-- Press `F12` to capture an SVG screenshot of the current TUI state to your clipboard
-- Use `--context` to connect to a specific Kubernetes cluster: `xplorer tui --context my-cluster`
+Use `Ctrl+R` to refresh the tree after making changes outside Xplorer. Press `F12` to capture an SVG screenshot of the current TUI state to your clipboard. The header auto-hides shortcuts and the logo on narrow terminals to preserve space. Connect to a specific cluster with `xplorer tui --context my-cluster`.
