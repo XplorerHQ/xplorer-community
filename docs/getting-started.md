@@ -20,7 +20,7 @@ When the TUI launches it connects to your cluster, discovers all Crossplane reso
 
 &#160;&#160;&#160;&#160;Each row shows Ready (`R`) and Synced (`S`) status at a glance, alongside resource type, name, kind, namespace, and age. Namespace and Age appear on wider terminals.
 
-<table><tr><td>
+<table><tr><td valign="top">
 
 | Column | Meaning |
 |--------|---------|
@@ -29,7 +29,7 @@ When the TUI launches it connects to your cluster, discovers all Crossplane reso
 | `T` | Type (`c` = Claim, `x` = XR) |
 | `Name` | Resource name |
 
-</td><td>
+</td><td valign="top">
 
 | Column | Meaning |
 |--------|---------|
