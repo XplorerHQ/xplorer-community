@@ -2,7 +2,7 @@
 
 Xplorer's Terminal UI (TUI) is the fastest way to understand what's happening inside a Crossplane cluster. This guide walks through the TUI. For CLI usage, see the [CLI Getting Started](cli-getting-started.md) guide.
 
-## Launching the TUI
+### Launching the TUI
 
 ---
 
@@ -10,7 +10,7 @@ Xplorer's Terminal UI (TUI) is the fastest way to understand what's happening in
 xplorer tui
 ```
 
-## Overview
+### Overview
 
 ---
 
@@ -43,7 +43,7 @@ Each row shows Ready (`R`) and Synced (`S`) status at a glance, alongside resour
 
 </td></tr></table>
 
-### Searching
+#### Searching
 
 ---
 
@@ -57,7 +57,7 @@ Note: search currently matches against the full resource manifest, not just visi
 
 Select any resource and press `Enter` to drill into its full hierarchy.
 
-## Resource Tree
+### Resource Tree
 
 ---
 
@@ -67,7 +67,7 @@ Use arrow keys or `j`/`k` to move through the tree. The full hierarchy unfolds f
 
 Health status sits inline on each row — healthy resources show their Ready/Synced indicators, unhealthy ones are highlighted so your eye goes straight to the problem.
 
-### Live Updates
+#### Live Updates
 
 ---
 
@@ -77,7 +77,7 @@ The tree subscribes to the Kubernetes watch stream and updates in real time. Whe
 
 If a status change appears — a resource turning unhealthy, a new error condition — the TUI automatically switches to the error detail view. No manual refresh needed.
 
-## Viewing Manifests
+### Viewing Manifests
 
 ---
 
@@ -87,7 +87,7 @@ Press `Enter` or `Ctrl+D` on any resource to open its YAML in a syntax-highlight
 
 Inside the panel, `Ctrl+T` / `Ctrl+P` cycle through syntax themes, `Ctrl+W` toggles word wrap, and `Escape` closes it.
 
-## Copying Resource Details
+### Copying Resource Details
 
 ---
 
@@ -105,7 +105,7 @@ For more control, `Alt+Shift+C` opens an edit panel with the focused content. Us
 
 ![Copy Edit Panel](images/tui-copy-adhoc-content.svg)
 
-## Debugging After a Provider Upgrade
+### Debugging After a Provider Upgrade
 
 ---
 
@@ -115,7 +115,7 @@ Provider upgrades can break existing compositions when CRD schemas change. Inste
 
 In this example, a provider upgrade changed the schema for `VirtualNetwork` and the composition still references `.spec.forProvider.dnsServers` — a field no longer declared in the new schema. The tree shows `Synced: False` on the XR with a `ReconcileError`, the exact error message, the affected resource and API version, and downstream effects like `WatchCircuitOpen` from CompositionRevision thrashing. What previously required correlating events across multiple resources is visible in a single screen. Navigate to the affected resource and press `Enter` to inspect its full manifest.
 
-## Pause and Resume Reconciliation
+### Pause and Resume Reconciliation
 
 ---
 
@@ -133,13 +133,13 @@ Under the hood, Xplorer adds the `crossplane.io/paused: 'true'` annotation. Open
 
 Press `p` again to resume. For broader control, `Shift+P` cascades the pause across the selected resource and all its children — useful when you need to stabilize an entire claim hierarchy before applying a fix.
 
-## Alternative Views
+### Alternative Views
 
 ---
 
 The TUI offers three views beyond the default tree for slicing your cluster from different angles.
 
-### Group by Kind — `Ctrl+K`
+#### Group by Kind — `Ctrl+K`
 
 ---
 
@@ -147,7 +147,7 @@ The TUI offers three views beyond the default tree for slicing your cluster from
 
 Groups all resources by Kubernetes kind. Useful when you want every instance of a particular resource type across the cluster in one place, regardless of which claim they belong to.
 
-### Group by Namespace — `Ctrl+N`
+#### Group by Namespace — `Ctrl+N`
 
 ---
 
@@ -155,7 +155,7 @@ Groups all resources by Kubernetes kind. Useful when you want every instance of 
 
 In Crossplane v2, namespaces often map to environments — dev, staging, production. This view gives you a per-environment slice of cluster health without filtering through unrelated resources.
 
-### Unhealthy Scan — `Ctrl+U`
+#### Unhealthy Scan — `Ctrl+U`
 
 ---
 
@@ -171,7 +171,7 @@ Select any composition and press `Enter` to drill into the full tree.
 
 In this expanded view, the XR's Ready condition shows reason `Creating` — a managed resource is still being provisioned by the cloud provider. Drilling into Resource Refs reveals the specific `Release` resource with both `Ready: False` and `Synced: False` and its own condition details. One screen, no hidden failures.
 
-## Themes
+### Themes
 
 ---
 
@@ -185,7 +185,7 @@ Available themes: xplorer-dark (default), textual-dark, textual-light, nord, gru
 
 ![Theme — Manifest View (alternate)](images/tui-theme-manifest2.svg)
 
-## Help
+### Help
 
 ---
 
@@ -195,7 +195,7 @@ Press `F1` on any screen to open a contextual help modal that lists every availa
 
 If you forget any shortcut from this guide, `F1` has the answer.
 
-## Universal Resource Palette _(WIP)_
+### Universal Resource Palette _(WIP)_
 
 ---
 
@@ -207,19 +207,19 @@ It also handles the kind collision problem introduced in Crossplane v2, where pr
 
 This feature is under active development, aiming toward a single entry point for any resource in the cluster with the same manifest viewing and navigation available today.
 
-## Keyboard Reference
+### Keyboard Reference
 
 ---
 
 See the full [Keyboard Shortcuts](keyboard-shortcuts.md) reference for every shortcut across all panels, including chord sequences (`Ctrl+X` prefix).
 
-## iTerm2: Alt Key Configuration
+### iTerm2: Alt Key Configuration
 
 ---
 
 Several shortcuts use the `Alt` modifier — theme switching, the copy edit panel. By default, iTerm2 on macOS treats the Option key as a compose key for special characters instead of sending the escape sequence terminal apps expect. Go to **Preferences > Profiles > Keys** and set **Left Option Key** to **Esc+** to fix this.
 
-## Tips
+### Tips
 
 ---
 
