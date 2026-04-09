@@ -6,6 +6,14 @@ This guide covers Xplorer's CLI usage. For the interactive TUI, see the [Getting
 
 You need a Kubernetes cluster with Crossplane installed, `kubectl` configured with cluster access, and at least one Crossplane claim in your cluster.
 
+For the lightweight interactive CLI mode (`xplorer` with no arguments), Xplorer uses [fzf](https://github.com/junegunn/fzf) as a fuzzy resource selector. It's optional — the TUI works without it — but if you plan to use CLI-only workflows, install it first:
+
+```bash
+brew install fzf          # macOS
+sudo apt install fzf      # Debian / Ubuntu
+sudo dnf install fzf      # Fedora
+```
+
 ## Installation
 
 ### Homebrew — macOS / Linux
