@@ -96,7 +96,7 @@ A copied line looks like:
 
 For more control, `Alt+Shift+C` opens an edit panel with the focused content. Use `Shift` + cursor keys to select exactly what you need, then `Ctrl+C` to copy and close (requires the [iTerm2 Alt key fix](#iterm2-alt-key-configuration)).
 
-![Copy Edit Panel](images/tui-copy-adhoc-content.svg)
+![Copy Edit Panel](images/tui-copy-adhoc-content.jpg)
 
 ## Debugging After a Provider Upgrade
 
