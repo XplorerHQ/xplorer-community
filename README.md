@@ -6,6 +6,12 @@
 
 ![Xplorer TUI](docs/images/xplorer-case-solved.png)
 
+<p align="center">
+  <a href="docs/video/self-healing.mp4">
+    <img src="docs/video/self-healing.gif" width="920" alt="Self-healing tree demo (click to open HD video)" />
+  </a>
+</p>
+
 ## Why Xplorer?
 
 When working with Crossplane, understanding resource relationships and debugging issues is challenging. With `kubectl` you can inspect individual resources, but tracing through the hierarchy requires many commands:
@@ -144,4 +150,4 @@ If Xplorer helps your workflow, consider [sponsoring](https://github.com/sponsor
 
 ---
 
-© 2025 Alex Hubitski. All rights reserved. Free for evaluation.
+© 2025. All rights reserved. Free for evaluation.
