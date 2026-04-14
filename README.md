@@ -7,7 +7,7 @@
 ![Xplorer TUI](docs/images/xplorer-case-solved.png)
 
 <p align="center">
-  <a href="docs/video/self-healing.mp4">
+  <a href="docs/video/self-healing.gif">
     <img src="docs/video/self-healing.gif" width="920" alt="Self-healing tree demo (click to open HD video)" />
   </a>
 </p>
