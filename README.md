@@ -32,7 +32,7 @@ kubectl get events --field-selector involvedObject.name=<resource>
 - Automatically discovering the complete resource hierarchy from a claim
 - Showing health status propagation through the tree
 - Highlighting problematic resources with error details and events
-- Providing a single command to understand what's happening
+- Providing a single command to understand what is happening
 
 What would take multiple `kubectl` commands and manual piecing together becomes:
 
@@ -47,6 +47,7 @@ xplorer show my-claim -v
 ```bash
 brew tap xplorerhq/dist
 brew install xplorer
+brew trust --formula xplorerhq/dist/xplorer
 ```
 
 ### Direct Download
@@ -97,7 +98,7 @@ See [Getting Started](docs/getting-started.md) for a walkthrough with screenshot
 # List all Crossplane claims
 xplorer list --claims
 
-# Explore a specific claim's hierarchy
+# Explore a specific claim hierarchy
 xplorer show my-database-claim
 
 # Show full hierarchy with health status
